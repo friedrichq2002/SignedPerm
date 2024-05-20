@@ -3,7 +3,6 @@
 #include <vector>
 #include <cmath>
 #include <functional>
-#include <set>
 #include <algorithm>
 #include <numeric>
 
@@ -40,7 +39,7 @@ vector<int> dec_two_zigzag(int n){
 	return ans;
 }
 
-void visit(vector<int> perm, int val, string change_type){
+void visit_print(vector<int> perm, int val, string change_type){
 	// print a signed permutation
 	for (int i : perm){
 		if (i > 0)
@@ -64,7 +63,8 @@ void visit(vector<int> perm, int val, string change_type){
 }
 
 void loopless_signed_perm(int n, int base_type, 
-	function<pair<int, int>(int)> algorithm){
+	function<pair<int, int>(int)> algorithm,
+	function<void(vector<int>, int, string)> visit){
 	vector<int> cur_perm(n);
 	vector<int> inverse(n+1);
 	iota(cur_perm.begin(), cur_perm.end(), 1);
@@ -164,72 +164,72 @@ int main(){
 		if(abs(change) <= n) return make_pair(n+1-abs(change), 3);
 		else return make_pair(2*n+1-abs(change), (change > 0 ? 0 : 1));
 	};
-	loopless_signed_perm(n, 0, algorithm1);
+	loopless_signed_perm(n, 0, algorithm1, visit_print);
 
 	auto algorithm2 = [n](int change){
 		if (abs(change) > n) return make_pair(2*n+1-abs(change), 3);
 		else return make_pair(n+1-abs(change), (change > 0 ? 0 : 1));
 	};
-	loopless_signed_perm(n, 1, algorithm2);
+	loopless_signed_perm(n, 1, algorithm2, visit_print);
 
 	auto algorithm3 = [n](int change){
 		if (abs(change)%2 == 1) return make_pair(n+1-(abs(change)+1)/2, 3);
 		else return make_pair(n+1-(abs(change)+1)/2, (change > 0 ? 0 : 1));
 	};
-	loopless_signed_perm(n, 2, algorithm3);
+	loopless_signed_perm(n, 2, algorithm3, visit_print);
 
 	auto algorithm4 = [n](int change){
 		if (abs(change)%2 == 0) return make_pair(n+1-(abs(change)+1)/2, 3);
 		else return make_pair(n+1-(abs(change)+1)/2, (change > 0 ? 0 : 1));
 	};
-	loopless_signed_perm(n, 3, algorithm4);
+	loopless_signed_perm(n, 3, algorithm4, visit_print);
 
 	auto algorithm5 = [n](int change){
 		if (abs(change) <= n) return make_pair(n+1-abs(change), 2);
 		else return make_pair(2*n+1-abs(change), (change > 0 ? 0 : 1));
 	};
-	loopless_signed_perm(n, 0, algorithm5);
+	loopless_signed_perm(n, 0, algorithm5, visit_print);
 
 	auto algorithm6 = [n](int change){
 		if (abs(change) > n) return make_pair(2*n+1-abs(change), 2);
 		else return make_pair(n+1-abs(change), (change > 0 ? 0 : 1));
 	};
-	loopless_signed_perm(n, 1, algorithm6);
+	loopless_signed_perm(n, 1, algorithm6, visit_print);
 
 	auto algorithm7 = [n](int change){
 		if (abs(change) <= n) return make_pair(n+1-abs(change), 3);
 		else return make_pair(2*n+1-abs(change), (change > 0 ? 4 : 5));
 	};
-	loopless_signed_perm(n, 0, algorithm7);
+	loopless_signed_perm(n, 0, algorithm7, visit_print);
 
 	auto algorithm8 = [n](int change){
 		if (abs(change) > n) return make_pair(2*n+1-abs(change), 3);
 		else return make_pair(n+1-abs(change), (change > 0 ? 4 : 5));
 	};
-	loopless_signed_perm(n, 1, algorithm8);
+	loopless_signed_perm(n, 1, algorithm8, visit_print);
 
 	auto algorithm9 = [n](int change){
 		if (abs(change) <= n) return make_pair(n+1-abs(change), 2);
 		else return make_pair(2*n+1-abs(change), (change > 0 ? 4 : 5));
 	};
-	loopless_signed_perm(n, 0, algorithm9);
+	loopless_signed_perm(n, 0, algorithm9, visit_print);
 
 	auto algorithm10 = [n](int change){
 		if (abs(change) > n) return make_pair(2*n+1-abs(change), 2);
 		else return make_pair(n+1-abs(change), (change > 0 ? 4 : 5));
 	};
-	loopless_signed_perm(n, 1, algorithm10);
+	loopless_signed_perm(n, 1, algorithm10, visit_print);
 
 	auto algorithm11 = [n](int change){
 		if (abs(change)%2 == 1) return make_pair(n+1-(abs(change)+1)/2, 3);
 		else return make_pair(n+1-(abs(change)+1)/2, (change > 0 ? 4 : 5));
 	};
-	loopless_signed_perm(n, 2, algorithm11);
+	loopless_signed_perm(n, 2, algorithm11, visit_print);
 
 	auto algorithm12 = [n](int change){
 		if (abs(change)%2 == 0) return make_pair(n+1-(abs(change)+1)/2, 3);
 		else return make_pair(n+1-(abs(change)+1)/2, (change > 0 ? 4 : 5));
 	};
-	loopless_signed_perm(n, 3, algorithm12);
+	loopless_signed_perm(n, 3, algorithm12, visit_print);
 	return 0;
 }

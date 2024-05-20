@@ -3,13 +3,12 @@
 #include <vector>
 #include <cmath>
 #include <functional>
-#include <set>
 #include <algorithm>
 #include <numeric>
 
 using namespace std;
 
-void visit(vector<int> perm, int val, string change_type) {
+void visit_print(vector<int> perm, int val, string change_type) {
 	// print a signed permutation
 	for (int i : perm) {
 		if (i > 0)
@@ -32,7 +31,7 @@ void visit(vector<int> perm, int val, string change_type) {
 	printf("\n");
 }
 
-void loopless_signed_perm_8(int n){
+void signed_perm_8(int n, function<void(vector<int>, int, string)> visit) {
 	vector<int> cur_perm(n);
 	vector<int> inverse(n + 1);
 	iota(cur_perm.begin(), cur_perm.end(), 1);
@@ -63,8 +62,7 @@ void loopless_signed_perm_8(int n){
 		case 0: {
 			visit(cur_perm, val, "t1"); // flip sign of value
 			cur_perm[pos] *= -1;
-			break;
-		}
+			break;}
 		case 1: {   
 			visit(cur_perm, val, "t2l"); // twist value to the left
 			int other = cur_perm[pos - 1];
@@ -73,8 +71,7 @@ void loopless_signed_perm_8(int n){
 			cur_perm[pos - 1] *= -1;
 			inverse[abs(val)] = pos - 1;
 			inverse[abs(other)] = pos;
-			break;
-		}
+			break;}
 		case 2: {
 			visit(cur_perm, val, "t2r"); // twist value to the right
 			int other = cur_perm[pos + 1];
@@ -83,8 +80,7 @@ void loopless_signed_perm_8(int n){
 			cur_perm[pos + 1] *= -1;
 			inverse[abs(val)] = pos + 1;
 			inverse[abs(other)] = pos;
-			break;
-		}
+			break;}
 		}
 	}
 	visit(cur_perm, 0, "o"); // the last permutation has no change
@@ -94,6 +90,6 @@ int main()
 {
 	int n;
 	scanf("%d", &n);
-	loopless_signed_perm_8(n);
+	signed_perm_8(n, visit_print);
 	return 0;
 }
